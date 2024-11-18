@@ -1,6 +1,5 @@
-#N canvas 270 99 429 645 10;
+#N canvas 883 79 443 645 10;
 #X declare -path includes -path osc -path slip -path iemnet;
-#X declare -path mrpeach;
 #N canvas 887 137 555 789 forward_to_socket 0;
 #X obj 15 119 route 47;
 #N canvas 805 209 205 169 serialize 0;
@@ -72,13 +71,11 @@
 #X obj 15 58 t a a a a a a a b;
 #X text 93 480 <socket> <number_of_digits>;
 #X text 170 641 realign OSC address to a multiple of 4 bytes;
-#X text 126 588 get rid of the first OSC address field (= [routeOSC
-*]);
+#X text 126 588 get rid of the first OSC address field (= [routeOSC *]);
 #X obj 15 710 list append;
 #X obj 15 735 list trim;
 #X obj 15 85 list split 8;
-#X text 155 81 socket number cannot exceed 6 digits \, so we only need
-to check the first seven bytes (2x'/' + 6);
+#X text 155 81 socket number cannot exceed 6 digits \, so we only need to check the first seven bytes (2x'/' + 6);
 #X obj 15 13 r SERVER;
 #X obj 15 35 route from;
 #X msg 15 688 to send \$1;
@@ -309,8 +306,7 @@ to check the first seven bytes (2x'/' + 6);
 #X obj 15 414 list append;
 #X obj 15 439 list trim;
 #X obj 15 96 list split 3;
-#X text 156 102 first field of OSC address mustn't exceed 1 byte (+
-'/');
+#X text 156 102 first field of OSC address mustn't exceed 1 byte (+ '/');
 #X text 168 152 we only need to check for this sequence: 47 98 47;
 #X text 166 174 98 = 'b';
 #X obj 15 181 route 98;
@@ -418,8 +414,7 @@ to check the first seven bytes (2x'/' + 6);
 #X obj 15 440 list append;
 #X obj 15 463 list trim;
 #X obj 15 113 list split 3;
-#X text 156 119 first field of OSC address mustn't exceed 1 byte (+
-'/');
+#X text 156 119 first field of OSC address mustn't exceed 1 byte (+ '/');
 #X text 168 169 we only need to check for this sequence: 47 98 47;
 #X text 166 191 98 = 'b';
 #X obj 15 221 route 47;
@@ -482,8 +477,7 @@ to check the first seven bytes (2x'/' + 6);
 #X text 246 219 num_of_clients;
 #X text 244 64 to clients;
 #X text 247 339 from clients;
-#X obj 130 113 cnv 15 160 17 empty empty empty 20 12 0 14 -261234 -66577
-0;
+#X obj 130 113 cnv 15 160 17 empty empty empty 20 12 0 14 #fcc4c4 #404040 0;
 #X obj 8 113 tcpsocketserver OSC 3025;
 #X text 170 113 <- change PORT here;
 #X connect 0 0 1 0;
@@ -659,8 +653,7 @@ to check the first seven bytes (2x'/' + 6);
 #X connect 20 0 11 1;
 #X restore 12 399 pd provide_num_of_clients;
 #X obj 202 549 spigot;
-#X obj 241 528 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 241 528 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000 0 1;
 #X text 259 528 debug;
 #X text 11 247 proxy methods;
 #X text 12 337 server methods;
@@ -690,7 +683,7 @@ to check the first seven bytes (2x'/' + 6);
 #X connect 4 0 1 0;
 #X connect 5 0 6 0;
 #X restore 202 397 pd CPU_LOAD;
-#X floatatom 202 421 5 0 0 0 - - -;
+#X floatatom 202 421 5 0 0 0 - - - 0;
 #X text 241 420 %;
 #X obj 282 10 loadbang;
 #N canvas 522 115 299 324 provide_protocol_version 0;
@@ -739,23 +732,34 @@ to check the first seven bytes (2x'/' + 6);
 #X connect 15 0 6 0;
 #X restore 12 420 pd provide_protocol_version;
 #X msg 282 32 \; protocol_version 2 0;
-#X text 165 178 <- support for legacy library;
 #X text 284 608 2016 \, Roman Haefeli;
 #X text 8 6 netpd-server;
 #X text 6 21 ------------------------------------------;
-#X obj 9 31 cnv 15 250 90 empty empty empty 20 12 0 14 -232576 -66577
-0;
+#X obj 9 31 cnv 15 250 90 empty empty empty 20 12 0 14 #e0c4fc #404040 0;
 #X text 8 94 http://www.netpd.org/server;
 #X text 8 79 more info:;
 #X text 8 43 version: 2.0.0;
 #X text 8 57 depends: pd >=0.45 \, iemnet \, osc \, slip;
-#X obj 76 211 cnv 15 220 35 empty empty empty 20 12 0 14 -261234 -66577
-0;
+#X obj 76 211 cnv 15 220 35 empty empty empty 20 12 0 14 #fcc4c4 #404040 0;
 #X text 97 229 default port is 3025;
 #X text 77 214 <- change port number in subpatch;
-#X obj 12 141 declare -path includes -path osc -path slip -path iemnet
-;
-#X obj 12 178 declare -path mrpeach;
+#X obj 12 141 declare -path includes -path osc -path slip -path iemnet;
+#X obj 268 347 file;
+#N canvas 1560 470 450 300 log 0;
+#X obj 34 60 r SERVER;
+#X obj 34 83 route num_of_clients ip socket;
+#X msg 93 111 symbol \$1.\$2.\$3.\$4:\$5;
+#X obj 34 136 list append;
+#X obj 34 166 list append, f 34;
+#X obj 34 189 print CLIENTS;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 1 1 2 0;
+#X connect 1 2 4 1;
+#X connect 2 0 3 1;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X restore 201 465 pd log;
 #X connect 1 0 3 0;
 #X connect 2 0 1 0;
 #X connect 12 0 16 0;
